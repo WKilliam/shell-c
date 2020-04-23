@@ -4,6 +4,7 @@
 valueTick=$1
 valueCountG=0
 valueCountE=0
+mkdir -p $HOME/log
 
 #./tick $1 | ./sensorData 2>&1
 ./tick $1 | ./sensorData 2>&1 | {
@@ -30,13 +31,12 @@ valueCountE=0
 
 			text4=$(echo $RAW_LINE | cut -d ";" -s -f5)
 
-			mytext=$(echo "SensorID : $text1 , SensorName : $text2 , Value : $text3 , MaxValue : $text4 ")
+			mytext=$(echo "User : $USER , IDuser : $INVOCATION_ID  , SensorID : $text1 , SensorName : $text2 , Value : $text3 , MaxValue : $text4 ")
 
-
-			echo $mytext  > acces.log
+			echo $mytext  > $HOME/log/acces.log
 
 		else 
-			echo $RAW_LINE > error.log
+			echo $RAW_LINE > $HOME/log/error.log
 		fi
 
 	done
