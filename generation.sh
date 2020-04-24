@@ -6,15 +6,19 @@ valuefile=$2
 valueAcces=$3
 valuefileError=$4
 
+#this line create all discovery
 mkdir -p $HOME/$valuefile
 touch $HOME/$valuefile/$valueAcces
 touch $HOME/$valuefile/$valuefileError
 
+
+# take code tick value and send sensor ( sensor take error and send message error in stdout )
 ./tick $1 | ./sensorData 2>&1 | {
 	while IFS= read -r RAW_LINE;do
 
 		raw=$(echo $RAW_LINE | cut -d ";" -s -f4)
 
+		# check message with m character in message check acces and error
 		if [[ $raw == m* ]]; then
 
 			text1=$(echo $RAW_LINE | cut -d ";" -s -f1)
@@ -30,7 +34,7 @@ touch $HOME/$valuefile/$valuefileError
 			echo $mytext >> $HOME/$2/$3
 
 		else 
-			echo "erreur value $text1" >> $HOME/$2/$4
+			echo "erreur value $text1 , name : $text2" >> $HOME/$2/$4
 		fi
 
 	done
