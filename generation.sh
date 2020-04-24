@@ -5,24 +5,15 @@ valueTick=$1
 valuefile=$2
 valueAcces=$3
 valuefileError=$4
-valueCountG=0
-valueCountE=0
-mkdir -p $HOME/log
 
-#./tick $1 | ./sensorData 2>&1
+mkdir -p $HOME/$valuefile
+touch $HOME/$valuefile/$valueAcces
+touch $HOME/$valuefile/$valuefileError
+
 ./tick $1 | ./sensorData 2>&1 | {
 	while IFS= read -r RAW_LINE;do
 
-		#echo "la ligne = $RAW_LINE"
-
 		raw=$(echo $RAW_LINE | cut -d ";" -s -f4)
-
-		#echo "ici je test raw = $raw" 
-
-		#echo $RAW_LINE | cut -d ";" -s -f4
-
-
-		#echo "$raw"
 
 		if [[ $raw == m* ]]; then
 
@@ -39,7 +30,7 @@ mkdir -p $HOME/log
 			echo $mytext >> $HOME/$2/$3
 
 		else 
-			echo $RAW_LINE >> $HOME/$2/$4
+			echo "erreur value $text1" >> $HOME/$2/$4
 		fi
 
 	done
